@@ -30,7 +30,7 @@ jobs:
 
       - name: Log in to Docker registry  
         run: | 
-          docker login -u $USER --password $PASSWORD
+          docker login -u $USER -p $PASSWORD
       - name: Push Docker image
         run: docker push romanbarchuk/generation-image #or integrity_check_repository
 
