@@ -23,7 +23,7 @@ jobs:
         run: mvn package
 
       - name: Build Docker image
-        run: docker build -t romanbarchuk/generation-image .
+        run: docker build -t romanbarchuk/integrity_check_repository .
 
       - name: Log in to Docker registry  
         env: 
@@ -32,4 +32,4 @@ jobs:
         run: | 
           docker login -u $USER -p $PASSWORD
       - name: Push Docker image
-        run: docker push romanbarchuk/integrity_check_repository
+        run: docker push romanbarchuk/generation-image
