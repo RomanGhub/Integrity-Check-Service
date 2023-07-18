@@ -32,4 +32,4 @@ jobs:
         run: | 
           docker login -u $USER -p $PASSWORD
       - name: Push Docker image
-        run: docker push romanbarchuk/generation-image
+        run: docker push romanbarchuk/integrity_check_repository
