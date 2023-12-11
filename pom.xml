@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.5</version>
+        <relativePath/>
+        <!--  lookup parent from repository  -->
+    </parent>
+    <groupId>org.kpi</groupId>
+    <artifactId>IntegrityInstruments</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            <jakarta-servlet.version>4.0.3</jakarta-servlet.version>
+            <jersey.version>2.36</jersey.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>com.teamdev</id>
+            <url>https://europe-maven.pkg.dev/jxbrowser/releases</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!--        SPARK-->
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.13</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.spark/spark-core &ndash;&gt;
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>3.3.1</version>
+        </dependency>-->
+
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.spark/spark-sql &ndash;&gt;   THIS CAUSES MULTIPLE LOG BINDING-->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.13</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.13</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+<!--            <scope>provided</scope>-->
+        </dependency>
+
+
+
+
+        <!--Spring-->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.1.5</version>
+            <exclusions>  <!--  TEMPORARY WORKAROUND-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+
+<!--        JX browser-->
+
+        <!-- https://mvnrepository.com/artifact/com.teamdev.jxbrowser/jxbrowser -->
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser</artifactId>
+            <version>7.12.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser-swing</artifactId>
+            <version>7.12.2</version> <!--was 7.36-->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.teamdev.jxbrowser/jxbrowser-win64 -->
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser-win64</artifactId>
+            <version>7.12.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser-cross-platform</artifactId>
+            <version>7.36</version>
+            <type>pom</type>
+        </dependency>
+
+        <!--        JAVA FX-->
+
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17</version> <!-- Use the version that matches your JavaFX version -->
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>17</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>17</version> <!-- Use the version that matches your JavaFX version -->
+        </dependency>
+
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>javax.ws.rs</groupId>-->
+<!--            <artifactId>javax.ws.rs-api</artifactId>-->
+<!--            <version>2.0-m10</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>javax.ws.rs</groupId>-->
+<!--            <artifactId>javax.ws.rs-api</artifactId>-->
+<!--            <version>2.0</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>jakarta.annotation</groupId>-->
+<!--            <artifactId>jakarta.annotation-api</artifactId>-->
+<!--            <version>1.3.5</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
