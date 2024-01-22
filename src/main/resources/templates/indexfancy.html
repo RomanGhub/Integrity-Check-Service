@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>File Uploader</title>
+  <!-- Include Dropzone.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css"
+        integrity="sha512-WvVX1YO12zmsvTpUQV8s7ZU98DnkaAokcciMZJfnNWyNzm7//QRV61t4aEr0WdIa4pe854QHLTV302vH92FSMw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+/*    #sparkContent {
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }*/
+
+    #fileList, #dataArrayList {
+      margin-top: 20px;
+    }
+
+    .dataArrayContainer {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f7f7f7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dataArrayContainer button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .dataArrayContainer input {
+      margin-left: 10px;
+      padding: 8px;
+      width: 300px;
+    }
+
+    #myDropzone, #mySecondDropzone {
+      max-width: 300px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+<form id="myDropzone" class="dropzone">
+  <div class="fallback">
+    <input name="file" type="file" multiple />
+  </div>
+</form>
+
+<span>Знизу наведені доступні для виконання алгоритми перевірки цілісності.</span>
+<div id="fileList"></div>
+
+<hr>
+
+<form id="mySecondDropzone" class="dropzone">
+  <div class="fallback">
+    <input name="secondFile" type="file" multiple />
+  </div>
+</form>
+
+<span>Знизу наведені доступні для перевірки цілісності масиви даних.</span>
+<div id="dataArrayList"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"
+        integrity="sha512-VQQXLthlZQO00P+uEu4mJ4G4OAgqTtKG1hri56kQY1DtdLeIqhKUp9W/lllDDu3uN3SnUNawpW7lBda8+dSi7w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  // Customize this URL to point to your Spring Boot controller
+  let uploadUrl = "http://localhost:8080/api/files/upload";
+  let uploadedFiles = [];
+
+  let selectedDataArray;
+
+  // Initialize Dropzones
+  Dropzone.options.myDropzone = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 20, // MB
+    acceptedFiles: ".jar", // Specify file types allowed
+    dictDefaultMessage: "Перетягніть сюди .jar архіви з імплементованим алгоритмом.", // Set your custom message here
+    url: function (files) {
+      // Append the filename as a query parameter to the upload URL
+      return uploadUrl + "?filename=" + encodeURIComponent(files[0].name) + "&isDataArray=false";
+    }, //uploadUrl,
+    init: function () {
+      this.on("success", function (file, response) {
+        console.log("File uploaded successfully:", response);
+        uploadedFiles.push(file.name);
+        updateFileList();
+      });
+      this.on("error", function (file, errorMessage) {
+        console.error("Error uploading file:", errorMessage);
+      });
+    }
+  };
+  Dropzone.options.mySecondDropzone = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 20000, // MB
+    // acceptedFiles: ".jar", // Specify file types allowed
+    dictDefaultMessage: "Перетягніть сюди масив даних, перевірку цілісності якого ви хочете здійснити.", // Set your custom message here
+    url: function (files) {
+      // Append the filename as a query parameter to the upload URL
+      return uploadUrl + "?filename=" + encodeURIComponent(files[0].name) + "&isDataArray=true";
+    }, //uploadUrl,
+    init: function () {
+      this.on("success", function (file, response) {
+        console.log("Data array uploaded successfully:", response);
+        uploadedFiles.push(file.name);
+        updateDataArrayList();
+      });
+      this.on("error", function (file, errorMessage) {
+        console.error("Error uploading data array:", errorMessage);
+      });
+    }
+
+
+  };
+
+  function updateFileList() {
+    // Clear existing buttons
+    document.getElementById("fileList").innerHTML = "";
+
+    // Create container for each uploaded file with a text field
+    for (let i = 0; i < uploadedFiles.length; i++) {
+      let filename = uploadedFiles[i];
+      if (!filename.endsWith(".jar")) {
+        continue;
+      }
+
+      // Create a container div
+      let container = document.createElement("div");
+      // Set style for container
+      container.classList.add("dataArrayContainer");
+
+      // Create button for the file
+      let button = document.createElement("button");
+      button.innerText = filename;
+      button.style.marginRight = "20px";
+      button.addEventListener("click", function () {
+        runAlgorithm(filename, selectedDataArray, this);
+      });
+
+      // Create text field
+      let textField = document.createElement("input");
+      textField.type = "text";
+      textField.placeholder = "Введіть попередньо обчислений ключ/хеш/суму для перевірки цілісності.";
+      textField.style.width = "452px";
+
+      // Append button and text field to the container
+      container.appendChild(button);
+      container.appendChild(textField);
+
+      // Append container to the file list container
+      document.getElementById("fileList").appendChild(container);
+    }
+  }
+
+  function updateDataArrayList() {
+    // Clear existing buttons
+    document.getElementById("dataArrayList").innerHTML = "";
+
+    // Create container for each uploaded file with a button and a text field
+    for (let i = 0; i < uploadedFiles.length; i++) {
+      let filename = uploadedFiles[i];
+      if (filename.endsWith(".jar")) {
+        continue;
+      }
+
+      // Create a container div
+      let container = document.createElement("div");
+      // set style for container
+      container.classList.add("dataArrayContainer");
+
+      // Create button for the file
+      let button = document.createElement("button");
+      button.innerText = filename;
+      button.addEventListener("click", function () {
+        // Call a function to handle the selection (e.g., selectFile)
+        selectFile(filename);
+      });
+
+      // Create text field
+      // let textField = document.createElement("input");
+      // textField.type = "text";
+      // textField.placeholder = "Enter text here";
+
+      // Append button and text field to the container
+      container.appendChild(button);
+      // container.appendChild(textField);
+
+      // Append container to the second file list container
+      document.getElementById("dataArrayList").appendChild(container);
+    }
+  }
+  function selectFile(selectedFilename) {
+    selectedDataArray = selectedFilename;
+    // Implement your logic to handle the selection here
+    // For example, you can highlight the selected file or perform other actions
+    console.log("Selected data array:", selectedFilename);
+  }
+
+  function runAlgorithm(filename, dataArray, buttonElement) {
+    // Make an AJAX call to the /run endpoint with the selected filename
+    // Prepare the data to be sent
+    const textFieldValue = buttonElement.nextElementSibling.value;
+
+    const data = new FormData();
+    data.append('filename', filename);
+    data.append('dataArray', dataArray);
+    data.append('precalculatedHash', textFieldValue);
+
+    fetch("http://localhost:8080/api/files/run", {  //?filename=" + encodeURIComponent(filename)
+      method: "POST",
+      /*            headers: {
+                      "Content-Type": "application/x-www-form-urlencoded", // Adjust the content type as needed
+                  },*/
+      /*            body: JSON.stringify({
+                      "filename": encodeURIComponent(filename),
+                      "dataArray": dataArray
+                  }),*/
+      body: data
+    })
+            .then(response => response.text())
+            .then(data => {
+              alert("Перевірка пройшла успішно. Обчислений хеш/сума : " + data + " ; \n Очікуваний хеш/сума: " + textFieldValue);
+
+              console.log(data);
+              // Handle the response as needed
+            })
+            .catch(error => {
+              alert("Відбулась жахлива помилка!")
+              console.error("Error running algorithm:", error);
+            });
+  }
+
+  // Load existing files on page load
+  window.onload = function () {
+    loadExistingFiles();
+    setTimeout(function() {}, 200);
+    loadExistingDataArrays();
+  };
+
+  function loadExistingFiles() {
+    fetch("http://localhost:8080/api/files/listOfFiles")
+            .then(response => response.json())
+            .then(data => {
+              // 'data' should be an array of file names
+              if (data) {
+                uploadedFiles = data;
+                updateFileList();
+              }
+            })
+            .catch(error => {
+              console.error("Error fetching file names:", error);
+            });
+  }
+
+  function loadExistingDataArrays() {
+    fetch("http://localhost:8080/api/files/listOfData")
+            .then(response => response.json())
+            .then(data => {
+              // 'data' should be an array of file names
+              if (data) {
+                data.forEach((array, index) => {
+                  uploadedFiles.push(array);
+                  updateDataArrayList();
+                })
+              }
+            })
+            .catch(error => {
+              console.error("Error fetching file names:", error);
+            });
+  }
+
+</script>
+
+</body>
+
+</html>
