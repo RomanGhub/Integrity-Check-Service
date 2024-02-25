@@ -15,7 +15,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
 
-//@RestController  //restcontroller does not work with th
+//@RestController  //restcontroller does not work with this
 @Controller
 @RequestMapping("/api/files")
 public class DropBox {
@@ -63,12 +63,6 @@ public class DropBox {
             System.out.println("No file uploaded");
             return new ResponseEntity<>("No file uploaded", HttpStatus.BAD_REQUEST);
         }
-
-//        // Check if the uploaded file is a JAR file
-//        if (!Objects.requireNonNull(file.getOriginalFilename()).endsWith(".jar") || !isDataArray) {  //.jar  and only one extension can be passed
-//            System.out.println("Only JAR files are allowed");
-//            return new ResponseEntity<>("Only JAR files are allowed", HttpStatus.BAD_REQUEST);
-//        } //maybe this one isn't needed
 
         // Define the directory where you want to save the JAR file
         String uploadDir = "./uploads";  // later change to set it in properties

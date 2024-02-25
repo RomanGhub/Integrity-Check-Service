@@ -50,15 +50,13 @@ public class IntegrityExecutor {
 //        String jarPath = "C:\\IdeaProjects\\IntegrityInstruments\\uploads\\"; //TODO put it in properties
         updateSparkJars(jarPath, fileName);
         //Load class into app
-        Object integrityClass = jarLoader.loadJar(fileName, ""); //TODO
+        LoadableClass integrityClass = jarLoader.loadJar(fileName, ""); //it was Object type //TODO custom name
 
 
         // Specify the path to data
 //        String dataArrayPath = "C:\\IdeaProjects\\IntegrityInstruments\\uploadedDataArrays\\"; //"./uploadedDataArrays/" + dataArray; // TODO this should be in properties
 
         splitFile(dataArrayPath + dataArray, 12, dataArrayPath + dataArray + "folder"); // + dataArray + "folder"
-
-
 
 
 /*        // THIS ONE WORKS but I need pairs
@@ -87,7 +85,8 @@ public class IntegrityExecutor {
         System.out.println("Number of partitions: " + fileData.getNumPartitions());
 
 //        HashmerkleTree.merkleSingleThread(integrityClass);
-        String rootHash = merkleTree.merkle(integrityClass);
+        String rootHash = merkleTree.merkle(integrityClass); //it was for Object integrityClass
+
 
         if(rootHash.equals(precalculatedHash)){
         };
@@ -95,6 +94,8 @@ public class IntegrityExecutor {
         return rootHash;
     }
 
+
+    // different fileSplitters as beans
     public static void splitFile(String originalFilePath, int numberOfChunks, String outputDirectory) {
         try (InputStream inputStream = new FileInputStream(originalFilePath)) {
             File originalFile = new File(originalFilePath);
@@ -159,67 +160,5 @@ public class IntegrityExecutor {
         }
     }
 
-/*
-    //old code
-
-    // Read the file into an RDD of (file path, byte array)
-//        JavaRDD<Tuple2<String, PortableDataStream>> fileData = sparkSession.sparkContext().binaryFiles(dataArrayPath, minPartitions).toJavaRDD();
-    //this one is working    JavaRDD<Tuple2<String, PortableDataStream>> fileData = spark.getSparkSession().sparkContext().binaryFiles(dataArrayPath, minPartitions).toJavaRDD();
-//        // Read the TGZ archive as binary data  // I failed at this approach unfortunately
-//        JavaRDD<byte[]> binaryDataRDD = sparkSession.sparkContext().binaryFiles(dataArrayPath, 1)
-//                .map((Function<Tuple2<String, PortableDataStream>, byte[]>) tuple -> tuple._2().toArray(), Encoders.kryo(byte[].class) );
-//        Dataset<String> dataset = sparkSession.read().textFile(logFile).cache(); // old variant with readme
-
-    /////// Old code from JarLoader
-    // Invoke a method (assuming there is a method called "someMethod" with no parameters)
-//        Method method = loadedClass.getMethod("check");
-//        method.invoke(instance);
-
-*/
-
-/*
-    public static void main(String[] args) {
-
-        String logFile = "README2.md";
-//        String logFile = "home/romaniy/sparkFiles/README2.md";
-//        String logFile = "C:\\IdeaProjects\\IntegrityInstruments\\README2.md";// Should be some file on your system
-        SparkSession spark = null;
-        try {
-            spark = SparkSession.builder().appName("Main").config("spark.master", "local[*]").getOrCreate(); //local[*] ////localhost:7077 seems not working
-            spark.sparkContext().setLogLevel("ERROR");
-            System.out.println("Context created");
-
-
-            Dataset<String> logData = spark.read().textFile(logFile).cache();
-
-            long numAs = 4;//logData.filter("1-4" ).count();
-            long numBs = logData.filter(col("value").rlike(".*[A-Za-z].*")).count();
-//        long numAs = logData.filter((Function1<String, Object>) s -> s.contains("a")).count();
-//        long numBs = logData.filter((Function1<String, Object>) s -> s.contains("b")).count();
-
-            System.out.println("Lines with a: " + numAs + ", lines with b: " + numBs);
-
-
-            if (spark.sparkContext().isStopped()) {
-                System.out.println("stopped 2");
-            }
-
-//        spark.stop();
-
-            if (spark.sparkContext().isStopped()) {
-                System.out.println("stopped 3");
-            }
-        } catch (Exception e) {
-            System.out.println("Error: Cannot call methods on a stopped SparkContext");
-            e.printStackTrace();
-        } finally {
-            assert spark != null;
-            // Add a delay or user input to keep the Spark UI accessible for a while
-            System.out.println("Press Enter to exit and stop the SparkContext");
-            new Scanner(System.in).nextLine();
-            spark.stop();
-        }
-    }
-*/
 
 }

@@ -17,7 +17,7 @@ import java.awt.event.WindowEvent;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
-public class Viewer {
+public class Viewer { //TODO rewrite completely or try some another fix. Otherwise - deprecated.
 
     public static void main(String[] args) {
         view();
