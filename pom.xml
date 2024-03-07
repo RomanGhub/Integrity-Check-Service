@@ -31,6 +31,12 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.11.22</version>
+        </dependency>
+
         <!--        SPARK-->
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
         <dependency>
