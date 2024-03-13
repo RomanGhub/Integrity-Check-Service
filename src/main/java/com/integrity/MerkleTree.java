@@ -1,14 +1,6 @@
-package org.kpi;
+package com.integrity;
 
-import com.google.common.hash.Hashing;
-import org.apache.hadoop.util.Time;
-import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.apache.spark.input.PortableDataStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,9 +13,8 @@ import java.security.NoSuchAlgorithmException;
 
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
-import static org.kpi.IntegrityExecutor.fileData;
+import static com.integrity.IntegrityExecutor.fileData;
 
 @Component
 public class MerkleTree {

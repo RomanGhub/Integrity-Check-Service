@@ -1,4 +1,4 @@
-package org.kpi;
+package com.integrity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

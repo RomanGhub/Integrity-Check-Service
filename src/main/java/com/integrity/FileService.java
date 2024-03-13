@@ -1,4 +1,4 @@
-package org.kpi;
+package com.integrity;
 
 import org.springframework.stereotype.Service;
 

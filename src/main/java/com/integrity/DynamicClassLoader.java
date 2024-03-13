@@ -1,16 +1,13 @@
-package org.kpi;
+package com.integrity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Paths;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 //was URLClassLoader
-public final class DynamicClassLoader extends ClassLoader {  //this in VM options -Djava.system.class.loader=org.kpi.DynamicClassLoader
+public final class DynamicClassLoader extends ClassLoader {  //this in VM options -Djava.system.class.loader=com.integrity.DynamicClassLoader
 
     static {
         registerAsParallelCapable();

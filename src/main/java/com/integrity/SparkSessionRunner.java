@@ -1,4 +1,4 @@
-package org.kpi;
+package com.integrity;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.scheduler.SparkListener;

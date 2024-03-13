@@ -11,7 +11,7 @@
 //import java.io.InputStream;
 //import java.util.List;
 //
-//import static org.kpi.IntegrityExecutor.fileData;
+//import static com.integrity.IntegrityExecutor.fileData;
 //
 //public class MerkleTreeTest {
 //

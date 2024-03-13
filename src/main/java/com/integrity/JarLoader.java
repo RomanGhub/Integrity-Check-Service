@@ -1,24 +1,40 @@
-package org.kpi;
+package com.integrity;
 
 import com.sun.tools.javac.Main;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Path;
-import java.util.Objects;
-import java.util.ServiceLoader;
 
 @Component
 public class JarLoader {
+
+
+    @Autowired
+    BeanRegistrator beanRegistrator;
+
+    @Autowired
+    AlgorithmWrapper wrapper;
+
+
 //, Path jarLocation, String className
     public LoadableClass loadJar(String fileName, String customClassName) throws NoSuchMethodException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         DynamicClassLoader loader = new DynamicClassLoader(Main.class.getClassLoader());
 //        loader.setJarSearchSpace(jarLocation);
         String className = "com.integrity.Algorithm";
         Class<?> pl = loader.loadClass(className); // load, not find!!
-        return (LoadableClass) pl.getConstructor().newInstance();
+
+        reg();
+        System.out.println("after reg and before return");
+
+
+        return wrapper.algorithmMap.get("Algorithm");
+//        return (LoadableClass) pl.getConstructor().newInstance();
+    }
+
+
+    public void reg(){
+        beanRegistrator.registerBean("Algorithm");
     }
 
 /*    //Even newer version with use of SPI (figured out that it doesn't work like that)

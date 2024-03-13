@@ -1,4 +1,4 @@
-package org.kpi;
+package com.integrity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Objects;
 
 //@RestController  //restcontroller does not work with this
 @Controller
