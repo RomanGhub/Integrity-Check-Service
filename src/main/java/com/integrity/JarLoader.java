@@ -28,8 +28,8 @@ public class JarLoader {
         System.out.println("after reg and before return");
 
 
-        return wrapper.algorithmMap.get("Algorithm");
-//        return (LoadableClass) pl.getConstructor().newInstance();
+//        return wrapper.algorithmMap.get("Algorithm");
+        return (LoadableClass) pl.getConstructor().newInstance();
     }
 
 

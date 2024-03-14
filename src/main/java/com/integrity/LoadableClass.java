@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 
 //This is service interface (SPI)
-@Component
+//@Component
 public interface LoadableClass {
 
     String check(InputStream inputStream);

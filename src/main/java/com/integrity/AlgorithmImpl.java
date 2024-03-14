@@ -5,18 +5,18 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 
 @Component
-public class AlgorithmImpl  {  //implements LoadableClass
+public class AlgorithmImpl implements LoadableClass {
 
-//    public void regMe(WrapperInterface wrapper){
-//        wrapper.register(myType(), this);
-//    }
+    public void regMe(WrapperInterface wrapper){
+        wrapper.register(myType(), this);
+    }
 
-//    @Override
+    @Override
     public String check(InputStream inputStream) {
         return null;
     }
 
-//    @Override
+    @Override
     public String myType() {
         return null;
     }
